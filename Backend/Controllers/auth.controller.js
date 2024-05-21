@@ -17,10 +17,9 @@ exports.signup = async (req, res, next) => {
       password: hashedPassword,
     });
 
-    // JWT Assign
-    const token = jwt.sign({ _id: newUser._id }, "Secretkey123", {
-      expiresIn: '90d',
-    });
+    // JWT Assign with increased expiry time (e.g., 180 days)
+    const token = jwt.sign({ _id: user._id }, 'Secretkey123', { expiresIn: '1h' });
+
     res.status(201).json({
       status: "Success",
       message: "User registered Successfully",
@@ -50,10 +49,8 @@ exports.login = async (req, res, next) => {
         if (!ispasswordValid){
             return next(new createError("Invaild Password or Email", 401));
         }
-         // JWT Assign
-        const token = jwt.sign({ _id: User._id }, "Secretkey123", {
-        expiresIn: '90d',
-      });
+         // JWT Assign with increased expiry time (e.g., 180 days)
+         const token = jwt.sign({ _id: user._id }, 'Secretkey123', { expiresIn: '1h' });
 
       res.status(200).json({
         status: "Success",
@@ -71,4 +68,27 @@ exports.login = async (req, res, next) => {
     catch(error){
         next(error);
     }
+};
+
+// Fetch user profile
+exports.getProfile = async (req, res, next) => {
+  try {
+    const userId = req.user._id; // This assumes you have middleware that extracts the user ID from the JWT token
+    const user = await User.findById(userId);
+
+    if (!user) {
+      return next(new createError('User not found', 404));
+    }
+    res.status(200).json({
+      status: 'success',
+      user: {
+        _id: user._id,
+        name: user.name,
+        email: user.email,
+        role: user.role // You may include additional fields if needed
+      }
+    });
+  } catch (error) {
+    next(error);
+  }
 };

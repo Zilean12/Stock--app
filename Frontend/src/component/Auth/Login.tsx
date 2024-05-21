@@ -2,31 +2,28 @@ import React, { useState } from 'react';
 import { Box, Button, TextField, Typography, Container, FormHelperText, Link, IconButton, InputAdornment } from '@mui/material';
 import axios from 'axios';
 import { Link as RouterLink } from 'react-router-dom';
-import { Visibility, VisibilityOff, Email, Lock } from '@mui/icons-material'; // Import icons for password visibility and email
-import './Login.css'; // Import CSS file for styling
+import { Visibility, VisibilityOff, Email, Lock } from '@mui/icons-material';
+import './Login.css';
 
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
-  const [showPassword, setShowPassword] = useState(false); // State to control password visibility
+  const [showPassword, setShowPassword] = useState(false);
 
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('http://localhost:3000/api/auth/login', {
-        email,
-        password,
-      });
-      // Handle successful login, e.g., set user authentication state
-      window.location.href = '/dashboard'; // Redirect to dashboard after successful login
+      const response = await axios.post('http://localhost:3000/api/auth/login', { email, password });
+      localStorage.setItem('accessToken', response.data.token); // Store the access token
+      window.location.href = '/dashboard';
     } catch (error) {
-      setError('Invalid email or password. Please try again.'); // Update error message
+      setError('Invalid email or password. Please try again.');
     }
   };
 
   const togglePasswordVisibility = () => {
-    setShowPassword(!showPassword); // Toggle password visibility state
+    setShowPassword(!showPassword);
   };
 
   return (
@@ -56,10 +53,10 @@ const Login = () => {
             margin="normal"
             label="Password"
             variant="outlined"
-            type={showPassword ? 'text' : 'password'} // Toggle password visibility based on state
+            type={showPassword ? 'text' : 'password'}
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            InputProps={{ // Add input adornment for password visibility toggle
+            InputProps={{
               startAdornment: (
                 <InputAdornment position="start">
                   <Lock className="input-icon" />
