@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Box, Button, TextField, Typography, Container, FormHelperText, IconButton, InputAdornment } from '@mui/material';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom'; // Import useNavigate
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
@@ -11,11 +11,7 @@ import LockIcon from '@mui/icons-material/Lock';
 import axios from 'axios';
 import './Register.css';
 
-interface RegisterFormProps {
-  onSubmit: (name: string, email: string, password: string) => void;
-}
-
-const Register: React.FC<RegisterFormProps> = ({ onSubmit }) => {
+const Register: React.FC = () => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -25,7 +21,7 @@ const Register: React.FC<RegisterFormProps> = ({ onSubmit }) => {
   const [apiError, setApiError] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-  // const navigate = useNavigate();
+  const navigate = useNavigate(); // Initialize useNavigate
 
   const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setName(e.target.value);
@@ -112,16 +108,20 @@ const Register: React.FC<RegisterFormProps> = ({ onSubmit }) => {
         email,
         password,
       });
+
       console.log(response.data);
-      onSubmit(name, email, password); // or handle the successful submission as needed
+
+      if (response.data.status === 'Success') {
+        // If account creation is successful, navigate to the dashboard page
+        navigate('/dashboard');
+      } else {
+        // Handle other cases if necessary
+        setApiError('Account creation failed.');
+      }
     } catch (error: any) {
       setApiError(error.response?.data?.message || 'Something went wrong. Please try again.');
     }
   };
-
-  // const handleLoginNavigate = () => {
-  //   navigate('/login');
-  // };
 
   return (
     <Container className="register-container">
@@ -272,9 +272,9 @@ const Register: React.FC<RegisterFormProps> = ({ onSubmit }) => {
           </Button>
           <br />
           <br />
-            <Typography component="p" className="subtitle">
-                Already have an account? <Link to="/login" className="bold-link">Login</Link>
-            </Typography>
+          <Typography component="p" className="subtitle">
+            Already have an account? <Link to="/login" className="bold-link">Login</Link>
+          </Typography>
         </form>
       </Box>
     </Container>
