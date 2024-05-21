@@ -1,0 +1,50 @@
+.profileContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: #fff;
+  padding: 40px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  max-width: 400px;
+  margin: auto;
+  margin-top: 50px;
+  text-align: center;
+  transition: transform 0.3s ease-in-out;
+}
+
+.profileContainer:hover {
+  transform: translateY(-5px);
+}
+
+.avatar {
+  width: 150px;
+  height: 150px;
+  font-size: 48px;
+  background-color: #f0f0f0;
+  border: 3px solid #ccc;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.userName {
+  font-weight: bold;
+  margin: 10px 0;
+  font-size: 10px;
+  color: #333;
+}
+
+.userEmail {
+  color: #666;
+  margin-bottom: 5px;
+  font-size: 16px;
+}
+
+/* Add additional styling for body */
+body {
+  background: linear-gradient(135deg, #f0f4f8, #d9e4f0);
+  height: 100vh;
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

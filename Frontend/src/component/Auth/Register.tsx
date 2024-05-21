@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Box, Button, TextField, Typography, Container, FormHelperText, IconButton, InputAdornment } from '@mui/material';
-import { Link, useNavigate } from 'react-router-dom'; // Import useNavigate
+import { Link, useNavigate } from 'react-router-dom';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
@@ -265,15 +265,12 @@ const Register: React.FC = () => {
             fullWidth
             variant="contained"
             color="primary"
-            className="submit-button"
-            disabled={!!passwordError || password !== confirmPassword}
+            className="submit-btn"
           >
-            Create Account
+            Sign Up
           </Button>
-          <br />
-          <br />
-          <Typography component="p" className="subtitle">
-            Already have an account? <Link to="/login" className="bold-link">Login</Link>
+          <Typography className="login-link">
+            Already have an account? <Link to="/login">Login</Link>
           </Typography>
         </form>
       </Box>

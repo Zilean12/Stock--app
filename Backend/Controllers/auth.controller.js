@@ -3,6 +3,9 @@ const createError = require('../utils/appError');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
+// Register user// Register user
+// auth.controller.js
+
 // Register user
 exports.signup = async (req, res, next) => {
   try {
@@ -17,24 +20,26 @@ exports.signup = async (req, res, next) => {
       password: hashedPassword,
     });
 
-    // JWT Assign with increased expiry time (e.g., 180 days)
-    const token = jwt.sign({ _id: user._id }, 'Secretkey123', { expiresIn: '1h' });
+    // Generate JWT token using the _id of the newly created user
+    const token = jwt.sign({ _id: newUser._id }, 'Secretkey123', { expiresIn: '1h' });
 
     res.status(201).json({
       status: "Success",
       message: "User registered Successfully",
       token,
-        user:{
-            _id: newUser._id,
-            name: newUser.name,
-            email: newUser.email,
-            role: newUser.role
-        }
+      user: {
+        _id: newUser._id,
+        name: newUser.name,
+        email: newUser.email,
+        role: newUser.role
+      }
     });
   } catch (error) {
     next(error);
   }
 };
+
+
 
 // Login
 exports.login = async (req, res, next) => {

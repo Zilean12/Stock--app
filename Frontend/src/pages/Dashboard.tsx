@@ -1,19 +1,20 @@
 import React, { useEffect, useState } from 'react';
-import { Box, Typography, Avatar, Button, Menu, MenuItem } from '@mui/material';
+import { Box, Typography, Avatar } from '@mui/material';
 import axios from 'axios';
-import './Dashboard.css'; // Import the CSS file
+import styles from './Dashboard.module.css'; // Import the CSS module
 
-const avatars = [
-  'https://randomuser.me/api/portraits/men/1.jpg',
-  'https://randomuser.me/api/portraits/women/1.jpg',
-  'https://randomuser.me/api/portraits/men/2.jpg',
-  'https://randomuser.me/api/portraits/women/2.jpg',
-  'https://randomuser.me/api/portraits/men/3.jpg',
-];
+interface User {
+  name: string;
+  email: string;
+  role: string;
+}
 
-const Profile = () => {
-  const [userData, setUserData] = useState(null);
-  const [anchorEl, setAnchorEl] = useState(null);
+interface UserData {
+  user: User;
+}
+
+const Dashboard: React.FC = () => {
+  const [userData, setUserData] = useState<UserData | null>(null);
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -22,7 +23,7 @@ const Profile = () => {
         if (!accessToken) {
           throw new Error('Access token not found');
         }
-        const response = await axios.get('http://localhost:3000/api/auth/profile', {
+        const response = await axios.get<UserData>('http://localhost:3000/api/auth/profile', {
           headers: {
             Authorization: `Bearer ${accessToken}`,
           },
@@ -35,57 +36,17 @@ const Profile = () => {
     fetchUserData();
   }, []);
 
-  const handleAvatarClick = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
-
-  const handleAvatarClose = () => {
-    setAnchorEl(null);
-  };
-
-  const handleAvatarChange = (avatar) => {
-    setUserData((prevData) => ({
-      ...prevData,
-      user: { ...prevData.user, avatar },
-    }));
-    setAnchorEl(null);
-  };
-
-  const handleLogout = () => {
-    localStorage.removeItem('accessToken');
-    window.location.href = '/login';
-  };
-
   if (!userData) {
     return <div>Loading...</div>;
   }
 
   return (
-    <Box className="profile-container">
-      <Avatar
-        className="profile-avatar"
-        src={userData.user.avatar || userData.user.name[0]}
-        onClick={handleAvatarClick}
-      />
-      <Menu
-        anchorEl={anchorEl}
-        open={Boolean(anchorEl)}
-        onClose={handleAvatarClose}
-      >
-        {avatars.map((avatar, index) => (
-          <MenuItem key={index} onClick={() => handleAvatarChange(avatar)}>
-            <Avatar src={avatar} />
-          </MenuItem>
-        ))}
-      </Menu>
-      <Typography variant="h4" className="profile-name">Name: {userData.user.name}</Typography>
-      <Typography variant="subtitle1" className="profile-email">Email ID: {userData.user.email}</Typography>
-      <Typography variant="subtitle1" className="profile-role">{userData.user.role}</Typography>
-      <Button variant="contained" color="secondary" className="logout-button" onClick={handleLogout}>
-        Logout
-      </Button>
+    <Box className={styles.profileContainer}>
+      <Avatar className={styles.avatar}>{userData.user.name[0]}</Avatar>
+      <Typography variant="h4" className={styles.userName}>Name: {userData.user.name}</Typography>
+      <Typography variant="subtitle1" className={styles.userEmail}>Email: {userData.user.email}</Typography>
     </Box>
   );
 };
 
-export default Profile;
+export default Dashboard;
