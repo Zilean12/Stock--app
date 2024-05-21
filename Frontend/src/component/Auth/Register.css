@@ -1,5 +1,17 @@
 /* Register.css */
 
+/* Keyframes for fade-in and slide-up animation */
+@keyframes fadeInUp {
+    0% {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
 .register-container {
     display: flex;
     flex-direction: column;
@@ -15,6 +27,8 @@
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
     width: 100%;
     max-width: 500px;
+    /* Add animation */
+    animation: fadeInUp 0.6s ease-out;
 }
 
 .title {
@@ -67,3 +81,6 @@
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Add shadow on hover for depth */
 }
 
+.bold-link {
+    font-weight: bold;
+}

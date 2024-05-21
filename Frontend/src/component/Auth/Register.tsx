@@ -5,6 +5,10 @@ import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import CancelIcon from '@mui/icons-material/Cancel';
+import PersonIcon from '@mui/icons-material/Person';
+import EmailIcon from '@mui/icons-material/Email';
+import LockIcon from '@mui/icons-material/Lock';
+import axios from 'axios';
 import './Register.css';
 
 interface RegisterFormProps {
@@ -21,7 +25,7 @@ const Register: React.FC<RegisterFormProps> = ({ onSubmit }) => {
   const [apiError, setApiError] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
   const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setName(e.target.value);
@@ -29,7 +33,12 @@ const Register: React.FC<RegisterFormProps> = ({ onSubmit }) => {
 
   const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setEmail(e.target.value);
-    setEmailError('');
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(e.target.value)) {
+      setEmailError('Invalid email format');
+    } else {
+      setEmailError('');
+    }
   };
 
   const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -110,9 +119,9 @@ const Register: React.FC<RegisterFormProps> = ({ onSubmit }) => {
     }
   };
 
-  const handleLoginNavigate = () => {
-    navigate('/login');
-  };
+  // const handleLoginNavigate = () => {
+  //   navigate('/login');
+  // };
 
   return (
     <Container className="register-container">
@@ -135,6 +144,13 @@ const Register: React.FC<RegisterFormProps> = ({ onSubmit }) => {
             autoFocus
             value={name}
             onChange={handleNameChange}
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <PersonIcon />
+                </InputAdornment>
+              ),
+            }}
             InputLabelProps={{ shrink: true }}
           />
           <TextField
@@ -149,6 +165,13 @@ const Register: React.FC<RegisterFormProps> = ({ onSubmit }) => {
             onChange={handleEmailChange}
             error={!!emailError}
             helperText={emailError}
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <EmailIcon />
+                </InputAdornment>
+              ),
+            }}
             InputLabelProps={{ shrink: true }}
           />
           <TextField
@@ -165,6 +188,11 @@ const Register: React.FC<RegisterFormProps> = ({ onSubmit }) => {
             error={!!passwordError}
             helperText={passwordError}
             InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <LockIcon />
+                </InputAdornment>
+              ),
               endAdornment: (
                 <InputAdornment position="end">
                   {password !== '' && (
@@ -201,6 +229,11 @@ const Register: React.FC<RegisterFormProps> = ({ onSubmit }) => {
             error={!!passwordError}
             helperText={passwordError || ' '}
             InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <LockIcon />
+                </InputAdornment>
+              ),
               endAdornment: (
                 <InputAdornment position="end">
                   {confirmPassword !== '' && (
@@ -240,7 +273,7 @@ const Register: React.FC<RegisterFormProps> = ({ onSubmit }) => {
           <br />
           <br />
             <Typography component="p" className="subtitle">
-                Already have an account? <Link to="/login">Login</Link>
+                Already have an account? <Link to="/login" className="bold-link">Login</Link>
             </Typography>
         </form>
       </Box>
