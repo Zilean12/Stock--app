@@ -3,7 +3,7 @@ import { Box, Typography, Avatar, Button } from '@mui/material';
 import axios from 'axios';
 import styles from './Dashboard.module.css';
 import { useNavigate } from 'react-router-dom';
-import avatarImage from '../assets/avatar1.png';
+import avatarImage from '../../assets/avatar1.png';
 
 interface User {
   _id: string;

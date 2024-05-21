@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import './App.css';
 import Register from './component/Auth/Register';
 import Login from './component/Auth/Login';
-import Dashboard from './pages/Dashboard';
+import Dashboard from './component/Profile/Dashboard';
 // import './CustomCursor.css';
 // import './CustomCursor.js';
 
