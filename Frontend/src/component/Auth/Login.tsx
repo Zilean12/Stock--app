@@ -32,10 +32,10 @@ const Login = () => {
   return (
     <Container maxWidth="sm">
       <Box className="login-container">
-        <Typography variant="h4" gutterBottom>
+        <Typography variant="h4" gutterBottom className="login-heading">
           Log In
         </Typography>
-        <form onSubmit={handleLogin}>
+        <form onSubmit={handleLogin} className="login-form">
           <TextField
             fullWidth
             margin="normal"
@@ -46,7 +46,7 @@ const Login = () => {
             InputProps={{
               startAdornment: (
                 <InputAdornment position="start">
-                  <Email />
+                  <Email className="input-icon" />
                 </InputAdornment>
               ),
             }}
@@ -62,7 +62,7 @@ const Login = () => {
             InputProps={{ // Add input adornment for password visibility toggle
               startAdornment: (
                 <InputAdornment position="start">
-                  <Lock />
+                  <Lock className="input-icon" />
                 </InputAdornment>
               ),
               endAdornment: (
@@ -75,14 +75,14 @@ const Login = () => {
             }}
           />
           {error && <FormHelperText error>{error}</FormHelperText>}
-          <Button type="submit" variant="contained" color="primary" fullWidth>
+          <Button type="submit" variant="contained" color="primary" fullWidth className="login-button">
             Login
           </Button>
         </form>
         <Box mt={2}>
-          <Typography>
+          <Typography className="register-text">
             Don't have an account?{' '}
-            <Link component={RouterLink} to="/">
+            <Link component={RouterLink} to="/" className="register-link">
               Register
             </Link>
           </Typography>
