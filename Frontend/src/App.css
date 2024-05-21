@@ -10,7 +10,7 @@ body {
 
 /* Add the following animation keyframes */
 
-@keyframes move {
+/* @keyframes move {
   0% {
     transform: translateY(-50%) translateX(-50%);
   }
@@ -20,5 +20,5 @@ body {
   100% {
     transform: translateY(-50%) translateX(-50%);
   }
-}
+} */
 
