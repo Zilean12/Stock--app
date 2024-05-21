@@ -57,28 +57,32 @@
   font-size: 36px;
   color: #333333;
 }
-
-.userEmail {
+.userEmail, .userId {
   color: #666666;
-  margin-bottom: 30px;
+  margin-bottom: 10px;
   font-size: 28px;
 }
 
 .logoutButton {
-  background-color: #ff6347;
+  background: linear-gradient(135deg, #4caf50, #388e3c); /* Green gradient */
   color: #ffffff;
   font-weight: bold;
   border: none;
-  border-radius: 10px;
-  padding: 14px 36px;
-  font-size: 20px;
+  border-radius: 20px;
+  padding: 16px 48px;
+  font-size: 24px;
   cursor: pointer;
-  transition: background-color 0.3s ease, transform 0.3s ease;
+  transition: background 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 6px 12px rgba(0, 128, 0, 0.3);
 }
 
 .logoutButton:hover {
-  background-color: #ff473e;
+  background: linear-gradient(135deg, #388e3c, #4caf50);
   transform: scale(1.05);
+  box-shadow: 0 12px 24px rgba(0, 128, 0, 0.5);
+}
+.logoutButton span {
+  font-weight: bold; /* Make the text bold */
 }
 
 body {

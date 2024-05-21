@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import avatarImage from '../assets/avatar1.png';
 
 interface User {
+  _id: string;
   name: string;
   email: string;
   role: string;
@@ -60,12 +61,16 @@ const Dashboard: React.FC = () => {
 
       </Box>
       <Box className={styles.userInfo}>
-        <Typography variant="h4" className={styles.userName}>Name: {userData.user.name}</Typography>
+        <Typography variant="h5" className={styles.userName}>Name: {userData.user.name}</Typography>
+        <Typography variant="subtitle1" className={styles.userId}>User ID: {userData.user._id}</Typography>
         <Typography variant="subtitle1" className={styles.userEmail}>Email: {userData.user.email}</Typography>
-        <Button className={styles.logoutButton} onClick={handleLogout}>Logout</Button>
+        <br />
+        <Button className={styles.logoutButton} onClick={handleLogout}>
+          <span style={{ fontWeight: 'bold', color: 'black' }}>Logout</span>
+        </Button>
       </Box>
     </Box>
   );
 };
 
-export default Dashboard;
+export default Dashboard; 
