@@ -12,31 +12,31 @@ const getStockData = async (req, res) => {
   }
 };
 
-const getWatchlist = (req, res) => {
-  const userId = req.userId;
-  res.json(users[userId].watchlist);
-};
+// const getWatchlist = (req, res) => {
+//   const userId = req.userId;
+//   res.json(users[userId].watchlist);
+// };
 
-const addToWatchlist = (req, res) => {
-  const userId = req.userId;
-  const { symbol } = req.body;
-  if (!symbol) {
-    return res.status(400).send('Stock symbol is required');
-  }
-  users[userId].watchlist.push(symbol);
-  res.status(201).send('Stock added to watchlist');
-};
+// const addToWatchlist = (req, res) => {
+//   const userId = req.userId;
+//   const { symbol } = req.body;
+//   if (!symbol) {
+//     return res.status(400).send('Stock symbol is required');
+//   }
+//   users[userId].watchlist.push(symbol);
+//   res.status(201).send('Stock added to watchlist');
+// };
 
-const removeFromWatchlist = (req, res) => {
-  const userId = req.userId;
-  const symbol = req.params.symbol;
-  users[userId].watchlist = users[userId].watchlist.filter(item => item !== symbol);
-  res.send('Stock removed from watchlist');
-};
+// const removeFromWatchlist = (req, res) => {
+//   const userId = req.userId;
+//   const symbol = req.params.symbol;
+//   users[userId].watchlist = users[userId].watchlist.filter(item => item !== symbol);
+//   res.send('Stock removed from watchlist');
+// };
 
 module.exports = {
   getStockData,
-  getWatchlist,
-  addToWatchlist,
-  removeFromWatchlist,
+//   getWatchlist,
+//   addToWatchlist,
+//   removeFromWatchlist,
 };

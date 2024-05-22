@@ -4,10 +4,11 @@ const dotenv = require('dotenv');
 const cors = require('cors');
 const authRouter = require('./routes/auth.route');
 const stockRouter = require('./routes/stock.route');
+const watchlistRouter = require('./routes/watchlist.route'); // Correct the path
 
 dotenv.config();
 const app = express();
-const port = process.env.PORT || 5000;
+const port = process.env.PORT || 3000; // Use port 3000 for your setup
 
 // Middleware
 app.use(cors());
@@ -16,6 +17,7 @@ app.use(express.json());
 // Routes
 app.use('/api/auth', authRouter);
 app.use('/api/stocks', stockRouter);
+app.use('/api/watch', watchlistRouter); // Correct the path
 
 // Connect to MongoDB
 mongoose.connect(process.env.MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true })
