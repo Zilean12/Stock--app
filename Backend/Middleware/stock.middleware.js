@@ -1,22 +1,27 @@
-// stock.middleware.js
-let users = {}; // In-memory store for user data
+const Watchlist = require('../Models/Watchlist.model'); // Import the Watchlist model
 
-const authenticateUser = (req, res, next) => {
+const authenticateUser = async (req, res, next) => {
   const userId = req.headers['user-id'];
   console.log(`Received user-id: ${userId}`); // Add logging for debugging
   if (!userId) {
     return res.status(401).send('User ID is required');
   }
   req.userId = userId;
-  if (!users[userId]) {
-    users[userId] = { watchlist: [] };
-    console.log(`New user initialized: ${userId}`); // Log user initialization
+
+  try {
+    // Check if the user exists in the database, if not create a new entry
+    let userWatchlist = await Watchlist.findOne({ userId });
+    if (!userWatchlist) {
+      userWatchlist = new Watchlist({ userId, watchlist: [] });
+      await userWatchlist.save();
+      console.log(`New user initialized: ${userId}`); // Log user initialization
+    }
+    next();
+  } catch (error) {
+    res.status(500).send('Error in user authentication');
   }
-  console.log(`User authenticated: ${userId}, Watchlist: ${users[userId].watchlist}`); // Log authenticated user
-  next();
 };
 
 module.exports = {
   authenticateUser,
-  users, // Exporting users for use in controllers
 };

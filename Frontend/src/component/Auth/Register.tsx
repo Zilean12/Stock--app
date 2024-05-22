@@ -112,8 +112,8 @@ const Register: React.FC = () => {
       console.log(response.data);
 
       if (response.data.status === 'Success') {
-        // If account creation is successful, navigate to the dashboard page
-        navigate('/dashboard');
+        // If account creation is successful, navigate to the Profile page
+        navigate('/Profile');
       } else {
         // Handle other cases if necessary
         setApiError('Account creation failed.');
@@ -269,6 +269,8 @@ const Register: React.FC = () => {
           >
             Sign Up
           </Button>
+          <br />
+          <br />
           <Typography className="login-link">
             Already have an account? <Link to="/login">Login</Link>
           </Typography>

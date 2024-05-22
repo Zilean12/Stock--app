@@ -1,0 +1,20 @@
+/* Navbar.module.css */
+
+.navbar {
+    position: fixed; /* Fixed position */
+    top: 0; /* Position at the top of the page */
+    left: 0; /* Align to the left */
+    width: 100%; /* Occupy the full width */
+    background-color: #333; /* Set the background color */
+    color: #fff; /* Set the text color */
+    z-index: 1000; /* Ensure it's above other elements */
+  }
+  
+  .navbar__title {
+    margin-right: 20px; /* Adjust spacing as needed */
+  }
+  
+  .navbar__button {
+    margin-left: 10px; /* Adjust spacing as needed */
+  }
+  

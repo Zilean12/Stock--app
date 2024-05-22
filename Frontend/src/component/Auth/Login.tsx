@@ -1,8 +1,10 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { Box, Button, TextField, Typography, Container, FormHelperText, Link, IconButton, InputAdornment } from '@mui/material';
 import axios from 'axios';
 import { Link as RouterLink } from 'react-router-dom';
 import { Visibility, VisibilityOff, Email, Lock } from '@mui/icons-material';
+import AuthContext from '../../contexts/AuthContext';
+
 import './Login.css';
 
 const Login = () => {
@@ -10,13 +12,15 @@ const Login = () => {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [showPassword, setShowPassword] = useState(false);
+  const { setUserName } = useContext(AuthContext);
 
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
       const response = await axios.post('http://localhost:3000/api/auth/login', { email, password });
       localStorage.setItem('accessToken', response.data.token); // Store the access token
-      window.location.href = '/dashboard';
+      setUserName(response.data.user.name); // Update the username in the context
+      window.location.href = '/Profile';
     } catch (error) {
       setError('Invalid email or password. Please try again.');
     }
