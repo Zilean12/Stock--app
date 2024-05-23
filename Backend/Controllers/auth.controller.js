@@ -3,6 +3,9 @@ const createError = require('../utils/appError');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
+// Register user// Register user
+// auth.controller.js
+
 // Register user
 exports.signup = async (req, res, next) => {
   try {

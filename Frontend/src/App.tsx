@@ -35,6 +35,7 @@ const App = () => {
           <Route path="/profile" element={<Profile />} />
           <Route path="/stockdashboard" element={<StockDashboard />} />
           <Route path="/watchlist" element={<Watchlist />} /> {/* Add Watchlist route */}
+
         </Routes>
       </Router>
     </AuthContext.Provider>

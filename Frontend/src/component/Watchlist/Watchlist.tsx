@@ -1,47 +1,69 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import axios from 'axios';
-// import './Watchlist.css';
+import AuthContext from '../../contexts/AuthContext';
 
 const Watchlist = () => {
+  const { authToken } = useContext(AuthContext);
   const [watchlist, setWatchlist] = useState<string[]>([]);
-  const [newSymbol, setNewSymbol] = useState('');
   const [error, setError] = useState('');
+  const [loading, setLoading] = useState(true);
+  const [stockData, setStockData] = useState<any[]>([]);
 
   const fetchWatchlist = async () => {
     try {
-      const response = await axios.get('http://localhost:3000/api/watch/watchlist');
-      setWatchlist(response.data);
-      setError('');
+      if (!authToken) {
+        throw new Error('No authentication token found');
+      }
+      const response = await axios.get<string[]>('http://localhost:3000/api/watch/watchlist', {
+        headers: { Authorization: `Bearer ${authToken}` },
+      });
+      if (response.status === 200) {
+        setWatchlist(response.data);
+      } else {
+        console.error(`Unexpected response status: ${response.status}`);
+        setError('Error fetching watchlist');
+      }
     } catch (error) {
       console.error('Error fetching watchlist:', error);
       setError('Error fetching watchlist');
+    } finally {
+      setLoading(false);
     }
   };
 
-  const addToWatchlist = async () => {
-    if (!newSymbol) {
-      setError('Stock symbol cannot be empty');
-      return;
-    }
+  const fetchStockData = async (symbol: string) => {
     try {
-      await axios.post('http://localhost:3000/api/watch/watchlist', { symbols: [newSymbol] });
-      fetchWatchlist();
-      setNewSymbol('');
-      setError('');
-    } catch (error) {
-      console.error('Error adding to watchlist:', error);
-      setError('Error adding to watchlist');
-    }
-  };
+      const response = await axios.get(`/api/stocks/${symbol}`);
+      console.log('Response data:', response.data);
 
-  const removeFromWatchlist = async (symbol: string) => {
-    try {
-      await axios.delete(`http://localhost:3000/api/watch/watchlist/${symbol}`);
-      fetchWatchlist();
-      setError('');
+      const timeSeries = response.data['Time Series (5min)'];
+      if (!timeSeries) {
+        throw new Error('No time series data found');
+      }
+
+      const latestTime = Object.keys(timeSeries)[0];
+      const latestData = timeSeries[latestTime];
+
+      const openPrice = parseFloat(latestData['1. open']);
+      const closePrice = parseFloat(latestData['4. close']);
+      const volume = parseInt(latestData['5. volume']);
+
+      const gainLoss = closePrice - openPrice;
+
+      const stockInfo = {
+        symbol,
+        price: openPrice.toFixed(4),
+        high: parseFloat(latestData['2. high']).toFixed(4),
+        gainLoss: gainLoss.toFixed(4),
+        close: closePrice.toFixed(4),
+        date: latestTime.split(' ')[0],
+        time: latestTime.split(' ')[1]
+      };
+
+      setStockData(prevStockData => [...prevStockData, stockInfo]);
     } catch (error) {
-      console.error('Error removing from watchlist:', error);
-      setError('Error removing from watchlist');
+      console.error('Error fetching or parsing stock data:', error);
+      setError('Error fetching or parsing stock data');
     }
   };
 
@@ -49,32 +71,34 @@ const Watchlist = () => {
     fetchWatchlist();
   }, []);
 
-  const handleAdd = (e: React.FormEvent) => {
-    e.preventDefault();
-    addToWatchlist();
-  };
+  useEffect(() => {
+    if (watchlist.length > 0) {
+      setStockData([]);
+      watchlist.forEach(symbol => fetchStockData(symbol));
+    }
+  }, [watchlist]);
 
   return (
     <div>
-      <h2>Watchlist</h2>
-      <form onSubmit={handleAdd}>
-        <input
-          type="text"
-          placeholder="Enter stock symbol"
-          value={newSymbol}
-          onChange={(e) => setNewSymbol(e.target.value)}
-        />
-        <button type="submit">Add</button>
-      </form>
-      {error && <p className="error">{error}</p>}
-      <ul>
-        {watchlist.map((symbol) => (
-          <li key={symbol}>
-            {symbol}
-            <button onClick={() => removeFromWatchlist(symbol)}>Remove</button>
-          </li>
-        ))}
-      </ul>
+      <h1>Your Watchlist</h1>
+      {loading && <p>Loading...</p>}
+      {error && <p>{error}</p>}
+      {!loading && !error && watchlist.length === 0 && <p>No stocks in your watchlist.</p>}
+      {!loading && !error && watchlist.length > 0 && (
+        <div>
+          {stockData.map((stock, index) => (
+            <div key={index}>
+              <h2>{stock.symbol}</h2>
+              <p>Price: ${stock.price}</p>
+              <p>High: ${stock.high}</p>
+              <p>Gain/Loss: {stock.gainLoss}</p>
+              <p>Close: ${stock.close}</p>
+              <p>Date: {stock.date}</p>
+              <p>Time: {stock.time}</p>
+            </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 };

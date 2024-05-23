@@ -5,6 +5,7 @@ const cors = require('cors');
 const authRouter = require('./routes/auth.route');
 const stockRouter = require('./routes/stock.route');
 const watchlistRoutes = require('./routes/watchlist.route'); // Correct the path
+const cookieParser = require('cookie-parser');
 
 dotenv.config();
 const app = express();
@@ -13,6 +14,7 @@ const port = process.env.PORT || 3000; // Use port 3000 for your setup
 // Middleware
 app.use(cors());
 app.use(express.json());
+app.use(cookieParser());
 
 // Routes
 app.use('/api/auth', authRouter);
