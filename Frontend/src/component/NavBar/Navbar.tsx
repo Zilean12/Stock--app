@@ -1,21 +1,17 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext } from 'react';
 import { AppBar, Toolbar, Typography, Button, Box, Menu, MenuItem } from '@mui/material';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom'; // Import Link from react-router-dom
 import styles from './Navbar.module.css';
 import AuthContext from '../../contexts/AuthContext';
 
-
-
 const Navbar = () => {
-    const { userName } = useContext(AuthContext);
-    const [displayUserName, setDisplayUserName] = useState(userName);
-    const navigate = useNavigate();
-    const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const { userName } = useContext(AuthContext);
+  const navigate = useNavigate();
+  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
 
   const handleLogout = () => {
     localStorage.removeItem('accessToken');
     localStorage.removeItem('userName');
-    setUserName(null);
     navigate('/login');
   };
 
@@ -34,8 +30,9 @@ const Navbar = () => {
           Dashboard
         </Typography>
         <Box sx={{ flexGrow: 1 }} />
-        {userName ? ( // Check if userName is available in context
+        {userName ? (
           <>
+            <Button color="inherit" component={Link} to="/stockdashboard">Stock Dashboard</Button> {/* Link to StockDashboard */}
             <Button color="inherit" onClick={handleClick}>
               {`Welcome, ${userName}`}
             </Button>
@@ -44,7 +41,7 @@ const Navbar = () => {
               open={Boolean(anchorEl)}
               onClose={handleClose}
             >
-              <MenuItem onClick={() => navigate('/profile')}>Profile</MenuItem>
+              <MenuItem component={Link} to="/profile">Profile</MenuItem> {/* Link to Profile */}
               <MenuItem onClick={handleLogout}>Logout</MenuItem>
             </Menu>
           </>

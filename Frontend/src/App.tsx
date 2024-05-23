@@ -8,6 +8,7 @@ import Login from './component/Auth/Login';
 import Profile from './component/Profile/Profile';
 import Navbar from './component/NavBar/Navbar';
 import  AuthContext  from './contexts/AuthContext'; // Import AuthProvider
+import StockDashboard from './component/Stocks/StockDashboard';
 
 const App = () => {
   const [userName, setUserName] = useState(null);
@@ -27,6 +28,8 @@ const App = () => {
           <Route path="/" element={<Register />} />
           <Route path="/login" element={<Login />} />
           <Route path="/profile" element={<Profile />} />
+          <Route path="/stockdashboard" element={<StockDashboard />} />
+
         </Routes>
       </Router>
     </AuthContext.Provider>

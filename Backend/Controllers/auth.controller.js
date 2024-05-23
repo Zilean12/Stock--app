@@ -2,7 +2,6 @@ const User = require('../Models/user.model');
 const createError = require('../utils/appError');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-const AuthContext = React.createContext();
 
 // Register user
 exports.signup = async (req, res, next) => {
