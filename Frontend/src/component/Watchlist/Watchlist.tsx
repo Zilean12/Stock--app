@@ -84,6 +84,7 @@ const Watchlist = () => {
       );
       if (response.status === 200) {
         setWatchlist(prevWatchlist => prevWatchlist.filter(item => item !== symbol));
+        setStockData(prevStockData => prevStockData.filter(stock => stock.symbol !== symbol));
       } else {
         console.error(`Unexpected response status: ${response.status}`);
         setError('Error removing stock from watchlist');
