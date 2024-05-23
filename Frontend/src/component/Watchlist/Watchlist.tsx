@@ -61,9 +61,14 @@ const Watchlist = () => {
       };
 
       // Check if symbol already exists in stockData array
-      if (!stockData.some(stock => stock.symbol === symbol)) {
-        setStockData(prevStockData => [...prevStockData, stockInfo]);
-      }
+      setStockData(prevStockData => {
+        const existingStock = prevStockData.find(stock => stock.symbol === symbol);
+        if (existingStock) {
+          return prevStockData.map(stock => stock.symbol === symbol ? stockInfo : stock);
+        } else {
+          return [...prevStockData, stockInfo];
+        }
+      });
     } catch (error) {
       console.error('Error fetching or parsing stock data:', error);
       setError('Error fetching or parsing stock data');
@@ -107,7 +112,7 @@ const Watchlist = () => {
   }, [watchlist]);
 
   return (
-    <div>
+    <div style={{ padding: '20px' }}>
       <h1>Your Watchlist</h1>
       {loading && <p>Loading...</p>}
       {error && <p>{error}</p>}
@@ -116,27 +121,33 @@ const Watchlist = () => {
         <table style={{ borderCollapse: 'collapse', width: '100%' }}>
           <thead>
             <tr>
-              <th style={{ padding: '8px', border: '1px solid #ddd' }}>Symbol</th>
-              <th style={{ padding: '8px', border: '1px solid #ddd' }}>Price</th>
-              <th style={{ padding: '8px', border: '1px solid #ddd' }}>High</th>
-              <th style={{ padding: '8px', border: '1px solid #ddd' }}>Gain/Loss</th>
-              <th style={{ padding: '8px', border: '1px solid #ddd' }}>Close</th>
-              <th style={{ padding: '8px', border: '1px solid #ddd' }}>Date</th>
-              <th style={{ padding: '8px', border: '1px solid #ddd' }}>Time</th>
-              <th style={{ padding: '8px', border: '1px solid #ddd' }}>Action</th>
+              <th style={{ padding: '12px', border: '1px solid #ddd' }}>Symbol</th>
+              <th style={{ padding: '12px', border: '1px solid #ddd' }}>Price</th>
+              <th style={{ padding: '12px', border: '1px solid #ddd' }}>High</th>
+              <th style={{ padding: '12px', border: '1px solid #ddd' }}>Gain/Loss</th>
+              <th style={{ padding: '12px', border: '1px solid #ddd' }}>Close</th>
+              <th style={{ padding: '12px', border: '1px solid #ddd' }}>Date</th>
+              <th style={{ padding: '12px', border: '1px solid #ddd' }}>Time</th>
+              <th style={{ padding: '12px', border: '1px solid #ddd' }}>Action</th>
             </tr>
           </thead>
           <tbody>
             {stockData.map((stock, index) => (
               <tr key={index} style={{ backgroundColor: index % 2 === 0 ? '#f2f2f2' : 'white' }}>
-                <td style={{ padding: '8px', border: '1px solid #ddd' }}>{stock.symbol}</td>
-                <td style={{ padding: '8px', border: '1px solid #ddd' }}>{stock.price}</td>
-                <td style={{ padding: '8px', border: '1px solid #ddd' }}>{stock.high}</td>
-                <td style={{ padding: '8px', border: '1px solid #ddd' }}>{stock.gainLoss}</td>
-                <td style={{ padding: '8px', border: '1px solid #ddd' }}>{stock.close}</td>
-                <td style={{ padding: '8px', border: '1px solid #ddd' }}>{stock.date}</td>
-                <td style={{ padding: '8px', border: '1px solid #ddd' }}>{stock.time}</td>
-                <td style={{ padding: '8px', border: '1px solid #ddd' }}>
+                <td style={{ padding: '12px', border: '1px solid #ddd' }}>{stock.symbol}</td>
+                <td style={{ padding: '12px', border: '1px solid #ddd' }}>{stock.price}</td>
+                <td style={{ padding: '12px', border: '1px solid #ddd' }}>{stock.high}</td>
+                <td style={{ padding: '12px', border: '1px solid #ddd' }}>
+                  {stock.gainLoss >= 0 ? (
+                    <span style={{ color: 'green' }}>↑ +{stock.gainLoss}</span>
+                  ) : (
+                    <span style={{ color: 'red' }}>↓ {stock.gainLoss}</span>
+                  )}
+                </td>
+                <td style={{ padding: '12px', border: '1px solid #ddd' }}>{stock.close}</td>
+                <td style={{ padding: '12px', border: '1px solid #ddd' }}>{stock.date}</td>
+                <td style={{ padding: '12px', border: '1px solid #ddd' }}>{stock.time}</td>
+                <td style={{ padding: '12px', border: '1px solid #ddd' }}>
                   <button onClick={() => removeFromWatchlist(stock.symbol)}>Remove</button>
                 </td>
               </tr>
