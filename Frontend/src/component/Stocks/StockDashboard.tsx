@@ -1,13 +1,14 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import axios from 'axios';
-import './StockDashboard.css'; // Import CSS file
+import AuthContext from '../../contexts/AuthContext';
 
 const StockDashboard = () => {
+  const { userName, authToken } = useContext(AuthContext); // Get authToken from AuthContext
   const [symbol, setSymbol] = useState('');
   const [stockData, setStockData] = useState<any>(null);
   const [error, setError] = useState('');
+  const [message, setMessage] = useState('');
 
-  // Function to fetch stock data
   const fetchStockData = async () => {
     if (!symbol) {
       setError('Stock symbol cannot be empty');
@@ -15,7 +16,7 @@ const StockDashboard = () => {
     }
     try {
       const response = await axios.get(`/api/stocks/${symbol}`);
-      console.log('Response data:', response.data);  // Log entire response data
+      console.log('Response data:', response.data);
 
       const timeSeries = response.data['Time Series (5min)'];
       if (!timeSeries) {
@@ -48,16 +49,40 @@ const StockDashboard = () => {
       setStockData(stockInfo);
       setError('');
     } catch (error) {
-      console.error('Error fetching or parsing stock data:', error);  // Log error
+      console.error('Error fetching or parsing stock data:', error);
       setError('Error fetching or parsing stock data');
       setStockData(null);
     }
   };
 
-  // Function to fetch stock data at regular intervals
+  const addToWatchlist = async () => {
+    if (!stockData || !stockData.symbol) {
+      setMessage('No stock data available to add to watchlist');
+      return;
+    }
+    try {
+      if (!authToken) {
+        throw new Error('No authentication token found');
+      }
+      const response = await axios.post(
+        'http://localhost:3000/api/watch/watchlist',
+        { symbols: [stockData.symbol] }, // Send an array containing the symbol
+        { headers: { Authorization: `Bearer ${authToken}` } }
+      );
+      if (response.status === 200) {
+        setMessage('Stock added to watchlist');
+      } else {
+        console.error(`Unexpected response status: ${response.status}`);
+      }
+    } catch (error) {
+      console.error('Error adding stock to watchlist:', error);
+      setMessage('Error adding stock to watchlist');
+    }
+  };
+  
   useEffect(() => {
     const intervalId = setInterval(fetchStockData, 600000); // Fetch data every 10 minutes
-    return () => clearInterval(intervalId); // Clear interval on component unmount
+    return () => clearInterval(intervalId);
   }, []);
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -90,8 +115,10 @@ const StockDashboard = () => {
           <p>High: ${stockData.high}</p>
           <p>Low: ${stockData.low}</p>
           <p>Close: ${stockData.close}</p>
+          <button onClick={addToWatchlist}>Add to Watchlist</button>
         </div>
       )}
+      {message && <p>{message}</p>}
     </div>
   );
 };

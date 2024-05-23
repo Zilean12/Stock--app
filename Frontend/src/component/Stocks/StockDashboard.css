@@ -1,66 +1,97 @@
+/* StockDashboard.css */
+
 body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background-color: #f4f4f4;
-    padding: 20px;
-  }
-  
-  h1 {
-    color: #333;
-  }
-  
-  form {
+    background-color: #f0f4f8;
+    font-family: 'Arial', sans-serif;
     display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+  }
+  
+  .stock-container {
+    background-color: #ffffff;
+    padding: 40px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    max-width: 500px;
+    width: 100%;
+    text-align: center;
+  }
+  
+  .stock-container:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 20px rgba(0, 0, 0, 0.15);
+  }
+  
+  .stock-container h1 {
+    color: #333;
+    margin-bottom: 20px;
+    font-size: 24px;
+  }
+  
+  .stock-container form {
+    display: flex;
+    justify-content: center;
     margin-bottom: 20px;
   }
   
-  input[type="text"] {
+  .stock-container input[type="text"] {
     padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    width: 200px;
+    border: 2px solid #007bff;
+    border-radius: 25px;
     margin-right: 10px;
+    font-size: 16px;
+    width: 200px;
+    outline: none;
+    transition: border-color 0.3s ease;
   }
   
-  button {
+  .stock-container input[type="text"]:focus {
+    border-color: #0056b3;
+  }
+  
+  .stock-container button {
     padding: 10px 20px;
+    background-color: #007bff;
     border: none;
-    border-radius: 5px;
-    background-color: #007BFF;
+    border-radius: 25px;
     color: white;
+    font-size: 16px;
     cursor: pointer;
+    transition: background-color 0.3s ease;
   }
   
-  button:hover {
+  .stock-container button:hover {
     background-color: #0056b3;
   }
   
-  p {
-    color: #333;
-  }
-  
-  p.error {
+  .stock-container .error {
     color: red;
+    margin-top: 10px;
+    font-size: 16px;
   }
   
-  div.stock-data {
-    background-color: #fff;
+  .stock-data {
+    background-color: #e9f7fe;
     padding: 20px;
-    border-radius: 5px;
-    box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.1);
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-top: 20px;
+    text-align: left;
   }
   
-  div.stock-data h2 {
-    margin-top: 0;
+  .stock-data h2 {
+    color: #007bff;
+    margin-bottom: 10px;
+    font-size: 20px;
   }
   
-  div.stock-data p {
-    margin: 10px 0;
-    font-size: 1.2em;
+  .stock-data p {
+    margin: 5px 0;
+    color: #555;
+    font-size: 16px;
   }
   
-  div.stock-data p span {
-    font-weight: bold;
-  }
-  form, div.stock-data {
-    align-self: flex-start;
-  }

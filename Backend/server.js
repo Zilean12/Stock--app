@@ -4,7 +4,7 @@ const dotenv = require('dotenv');
 const cors = require('cors');
 const authRouter = require('./routes/auth.route');
 const stockRouter = require('./routes/stock.route');
-const watchlistRouter = require('./routes/watchlist.route'); // Correct the path
+const watchlistRoutes = require('./routes/watchlist.route'); // Correct the path
 
 dotenv.config();
 const app = express();
@@ -17,7 +17,7 @@ app.use(express.json());
 // Routes
 app.use('/api/auth', authRouter);
 app.use('/api/stocks', stockRouter);
-app.use('/api/watch', watchlistRouter); // Correct the path
+app.use('/api/watch', watchlistRoutes);
 
 // Connect to MongoDB
 mongoose.connect(process.env.MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true })

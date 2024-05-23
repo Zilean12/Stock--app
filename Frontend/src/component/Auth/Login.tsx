@@ -12,16 +12,17 @@ const Login = () => {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [showPassword, setShowPassword] = useState(false);
-  const { setUserName } = useContext(AuthContext);
+  const { setUserName, setAuthToken } = useContext(AuthContext); // Get setAuthToken from AuthContext
 
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
       const response = await axios.post('http://localhost:3000/api/auth/login', { email, password });
-      localStorage.setItem('accessToken', response.data.token); // Store the access token
-      setUserName(response.data.user.name); // Update the username in the context
+      localStorage.setItem('accessToken', response.data.token); // Store the access token in local storage
+      setAuthToken(response.data.token); // Store the access token in AuthContext
       window.location.href = '/Profile';
     } catch (error) {
+      console.error(error); // Log the error to the console
       setError('Invalid email or password. Please try again.');
     }
   };

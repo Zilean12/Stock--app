@@ -1,12 +1,32 @@
-// AuthContext.tsx
+import React, { createContext, useState, useEffect } from 'react';
 
-import React from 'react';
+const AuthContext = createContext({
+  authToken: null,
+  userName: null,
+  setAuthToken: () => {},
+  setUserName: () => {},
+});
 
-interface AuthContextType {
-  userName: string | null;
-  setUserName: (value: string | null) => void;
-}
+export const AuthProvider = ({ children }) => {
+  const [authToken, setAuthToken] = useState(null);
+  const [userName, setUserName] = useState(null);
 
-const AuthContext = React.createContext<AuthContextType | undefined>(undefined);
+  useEffect(() => {
+    const token = localStorage.getItem('accessToken');
+    const name = localStorage.getItem('userName');
+    if (token) {
+      setAuthToken(token);
+    }
+    if (name) {
+      setUserName(name);
+    }
+  }, []);
 
-export default AuthContext; // This line exports AuthContext as the default export
+  return (
+    <AuthContext.Provider value={{ authToken, userName, setAuthToken, setUserName }}>
+      {children}
+    </AuthContext.Provider>
+  );
+};
+
+export default AuthContext;

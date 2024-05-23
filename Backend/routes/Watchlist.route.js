@@ -1,13 +1,10 @@
-// watchlist.route.js
 const express = require('express');
 const router = express.Router();
-const { authenticateUser } = require('../Middleware/stock.middleware');
-const watchlistsController = require('../Controllers/watchlists.controller');
+const watchlistController = require('../Controllers/watchlists.controller');
+const authMiddleware = require('../Middleware/authenticate');
 
-router.use(authenticateUser); // Apply middleware
-
-router.get('/watchlist', watchlistsController.getWatchlist);
-router.post('/watchlist', watchlistsController.addToWatchlist);
-router.delete('/watchlist/:symbol', watchlistsController.removeFromWatchlist);
+router.get('/watchlist', authMiddleware, watchlistController.getWatchlist);
+router.post('/watchlist', authMiddleware, watchlistController.addToWatchlist);
+router.delete('/watchlist/:symbol', authMiddleware, watchlistController.removeFromWatchlist);
 
 module.exports = router;

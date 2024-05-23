@@ -1,11 +1,10 @@
-// Profile.tsx
-
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { Box, Typography, Avatar } from '@mui/material';
 import axios from 'axios';
 import styles from './Dashboard.module.css';
 import { useNavigate } from 'react-router-dom';
 import avatarImage from '../../assets/avatar1.png';
+import AuthContext from '../../contexts/AuthContext';
 
 interface User {
   _id: string;
@@ -21,6 +20,7 @@ interface UserData {
 const Profile: React.FC = () => {
   const [userData, setUserData] = useState<UserData | null>(null);
   const navigate = useNavigate();
+  const { setUserName } = useContext(AuthContext);
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -37,15 +37,15 @@ const Profile: React.FC = () => {
         });
         setUserData(response.data);
 
-        // Store username in local storage
-        localStorage.setItem('userName', response.data.user.name);
+        // Store username in AuthContext
+        setUserName(response.data.user.name);
       } catch (error) {
         console.error('Error fetching user data:', error);
         navigate('/login');
       }
     };
     fetchUserData();
-  }, [navigate]);
+  }, [navigate, setUserName]);
 
   if (!userData) {
     return <div>Loading...</div>;
