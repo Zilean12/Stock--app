@@ -60,10 +60,37 @@ const Watchlist = () => {
         time: latestTime.split(' ')[1]
       };
 
-      setStockData(prevStockData => [...prevStockData, stockInfo]);
+      // Check if symbol already exists in stockData array
+      if (!stockData.some(stock => stock.symbol === symbol)) {
+        setStockData(prevStockData => [...prevStockData, stockInfo]);
+      }
     } catch (error) {
       console.error('Error fetching or parsing stock data:', error);
       setError('Error fetching or parsing stock data');
+    }
+  };
+
+  const removeFromWatchlist = async (symbol: string) => {
+    try {
+      if (!authToken) {
+        throw new Error('No authentication token found');
+      }
+      const response = await axios.delete(
+        'http://localhost:3000/api/watch/watchlist',
+        {
+          headers: { Authorization: `Bearer ${authToken}` },
+          data: { symbol },
+        }
+      );
+      if (response.status === 200) {
+        setWatchlist(prevWatchlist => prevWatchlist.filter(item => item !== symbol));
+      } else {
+        console.error(`Unexpected response status: ${response.status}`);
+        setError('Error removing stock from watchlist');
+      }
+    } catch (error) {
+      console.error('Error removing stock from watchlist:', error);
+      setError('Error removing stock from watchlist');
     }
   };
 
@@ -73,7 +100,7 @@ const Watchlist = () => {
 
   useEffect(() => {
     if (watchlist.length > 0) {
-      setStockData([]);
+      setStockData([]); // Clear stockData before fetching new data
       watchlist.forEach(symbol => fetchStockData(symbol));
     }
   }, [watchlist]);
@@ -85,19 +112,36 @@ const Watchlist = () => {
       {error && <p>{error}</p>}
       {!loading && !error && watchlist.length === 0 && <p>No stocks in your watchlist.</p>}
       {!loading && !error && watchlist.length > 0 && (
-        <div>
-          {stockData.map((stock, index) => (
-            <div key={index}>
-              <h2>{stock.symbol}</h2>
-              <p>Price: ${stock.price}</p>
-              <p>High: ${stock.high}</p>
-              <p>Gain/Loss: {stock.gainLoss}</p>
-              <p>Close: ${stock.close}</p>
-              <p>Date: {stock.date}</p>
-              <p>Time: {stock.time}</p>
-            </div>
-          ))}
-        </div>
+        <table style={{ borderCollapse: 'collapse', width: '100%' }}>
+          <thead>
+            <tr>
+              <th style={{ padding: '8px', border: '1px solid #ddd' }}>Symbol</th>
+              <th style={{ padding: '8px', border: '1px solid #ddd' }}>Price</th>
+              <th style={{ padding: '8px', border: '1px solid #ddd' }}>High</th>
+              <th style={{ padding: '8px', border: '1px solid #ddd' }}>Gain/Loss</th>
+              <th style={{ padding: '8px', border: '1px solid #ddd' }}>Close</th>
+              <th style={{ padding: '8px', border: '1px solid #ddd' }}>Date</th>
+              <th style={{ padding: '8px', border: '1px solid #ddd' }}>Time</th>
+              <th style={{ padding: '8px', border: '1px solid #ddd' }}>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            {stockData.map((stock, index) => (
+              <tr key={index} style={{ backgroundColor: index % 2 === 0 ? '#f2f2f2' : 'white' }}>
+                <td style={{ padding: '8px', border: '1px solid #ddd' }}>{stock.symbol}</td>
+                <td style={{ padding: '8px', border: '1px solid #ddd' }}>{stock.price}</td>
+                <td style={{ padding: '8px', border: '1px solid #ddd' }}>{stock.high}</td>
+                <td style={{ padding: '8px', border: '1px solid #ddd' }}>{stock.gainLoss}</td>
+                <td style={{ padding: '8px', border: '1px solid #ddd' }}>{stock.close}</td>
+                <td style={{ padding: '8px', border: '1px solid #ddd' }}>{stock.date}</td>
+                <td style={{ padding: '8px', border: '1px solid #ddd' }}>{stock.time}</td>
+                <td style={{ padding: '8px', border: '1px solid #ddd' }}>
+                  <button onClick={() => removeFromWatchlist(stock.symbol)}>Remove</button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
       )}
     </div>
   );
