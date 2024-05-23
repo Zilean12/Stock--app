@@ -90,7 +90,39 @@ exports.getProfile = async (req, res, next) => {
         _id: user._id,
         name: user.name,
         email: user.email,
-        role: user.role // You may include additional fields if needed
+        role: user.role,
+        gender: user.gender
+      }
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+// Update user profile
+exports.updateProfile = async (req, res, next) => {
+  try {
+    const userId = req.user._id; // This assumes you have middleware that extracts the user ID from the JWT token
+    const { name, gender } = req.body;
+
+    const user = await User.findByIdAndUpdate(
+      userId,
+      { name, gender },
+      { new: true, runValidators: true }
+    );
+
+    if (!user) {
+      return next(new createError('User not found', 404));
+    }
+
+    res.status(200).json({
+      status: 'success',
+      message: 'Profile updated successfully',
+      user: {
+        _id: user._id,
+        name: user.name,
+        email: user.email,
+        role: user.role,
+        gender: user.gender
       }
     });
   } catch (error) {

@@ -14,10 +14,15 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    role:{
+    role: {
         type: String,
         default: 'user',
     },
+    gender: {
+        type: String,
+        enum: ['Male', 'Female', 'Other'],
+        default: 'Other'
+    }
 });
 
 const User = mongoose.model('User', userSchema);
