@@ -1,0 +1,20 @@
+/* CSS for large screens */
+@media (min-width: 1200px) {
+    body {
+      background-color: lightblue;
+    }
+  }
+  
+  /* CSS for medium screens */
+  @media (min-width: 768px) and (max-width: 1199px) {
+    body {
+      background-color: lightgreen;
+    }
+  }
+  
+  /* CSS for small screens */
+  @media (max-width: 767px) {
+    body {
+      background-color: lightyellow;
+    }
+  }

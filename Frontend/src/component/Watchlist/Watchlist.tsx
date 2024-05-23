@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react';
 import axios from 'axios';
 import AuthContext from '../../contexts/AuthContext';
+import './Watchlist.css';
 
 const Watchlist = () => {
   const { authToken } = useContext(AuthContext);
@@ -8,6 +9,7 @@ const Watchlist = () => {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(true);
   const [stockData, setStockData] = useState<any[]>([]);
+  
 
   const fetchWatchlist = async () => {
     try {
@@ -112,43 +114,43 @@ const Watchlist = () => {
   }, [watchlist]);
 
   return (
-    <div style={{ padding: '20px' }}>
+    <div className="watchlist-container">
       <h1>Your Watchlist</h1>
       {loading && <p>Loading...</p>}
       {error && <p>{error}</p>}
       {!loading && !error && watchlist.length === 0 && <p>No stocks in your watchlist.</p>}
       {!loading && !error && watchlist.length > 0 && (
-        <table style={{ borderCollapse: 'collapse', width: '100%' }}>
+        <table className="watchlist-table">
           <thead>
             <tr>
-              <th style={{ padding: '12px', border: '1px solid #ddd' }}>Symbol</th>
-              <th style={{ padding: '12px', border: '1px solid #ddd' }}>Price</th>
-              <th style={{ padding: '12px', border: '1px solid #ddd' }}>High</th>
-              <th style={{ padding: '12px', border: '1px solid #ddd' }}>Gain/Loss</th>
-              <th style={{ padding: '12px', border: '1px solid #ddd' }}>Close</th>
-              <th style={{ padding: '12px', border: '1px solid #ddd' }}>Date</th>
-              <th style={{ padding: '12px', border: '1px solid #ddd' }}>Time</th>
-              <th style={{ padding: '12px', border: '1px solid #ddd' }}>Action</th>
+              <th>Symbol</th>
+              <th>Price</th>
+              <th>High</th>
+              <th>Gain/Loss</th>
+              <th>Close</th>
+              <th>Date</th>
+              <th>Time</th>
+              <th>Action</th>
             </tr>
           </thead>
           <tbody>
             {stockData.map((stock, index) => (
-              <tr key={index} style={{ backgroundColor: index % 2 === 0 ? '#f2f2f2' : 'white' }}>
-                <td style={{ padding: '12px', border: '1px solid #ddd' }}>{stock.symbol}</td>
-                <td style={{ padding: '12px', border: '1px solid #ddd' }}>{stock.price}</td>
-                <td style={{ padding: '12px', border: '1px solid #ddd' }}>{stock.high}</td>
-                <td style={{ padding: '12px', border: '1px solid #ddd' }}>
+              <tr key={index}>
+                <td>{stock.symbol}</td>
+                <td>{stock.price}</td>
+                <td>{stock.high}</td>
+                <td>
                   {stock.gainLoss >= 0 ? (
-                    <span style={{ color: 'green' }}>↑ +{stock.gainLoss}</span>
+                    <span className="gain">↑ +{stock.gainLoss}</span>
                   ) : (
-                    <span style={{ color: 'red' }}>↓ {stock.gainLoss}</span>
+                    <span className="loss">↓ {stock.gainLoss}</span>
                   )}
                 </td>
-                <td style={{ padding: '12px', border: '1px solid #ddd' }}>{stock.close}</td>
-                <td style={{ padding: '12px', border: '1px solid #ddd' }}>{stock.date}</td>
-                <td style={{ padding: '12px', border: '1px solid #ddd' }}>{stock.time}</td>
-                <td style={{ padding: '12px', border: '1px solid #ddd' }}>
-                  <button onClick={() => removeFromWatchlist(stock.symbol)}>Remove</button>
+                <td>{stock.close}</td>
+                <td>{stock.date}</td>
+                <td>{stock.time}</td>
+                <td>
+                  <button className="remove-button" onClick={() => removeFromWatchlist(stock.symbol)}>Remove</button>
                 </td>
               </tr>
             ))}
