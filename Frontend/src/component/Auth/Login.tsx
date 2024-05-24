@@ -17,7 +17,7 @@
 //   const handleLogin = async (e) => {
 //     e.preventDefault();
 //     try {
-//       const response = await axios.post('http://localhost:3000/api/auth/login', { email, password });
+//       const response = await axios.post('https://stock-app12.azurewebsites.net/api/auth/login', { email, password });
 //       localStorage.setItem('accessToken', response.data.token); // Store the access token in local storage
 //       setAuthToken(response.data.token); // Store the access token in AuthContext
 //       window.location.href = '/Profile';
@@ -116,7 +116,7 @@ const Login = () => {
   const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
-      const response = await axios.post('http://localhost:3000/api/auth/login', { email, password });
+      const response = await axios.post('https://stock-app12.azurewebsites.net/api/auth/login', { email, password });
       localStorage.setItem('accessToken', response.data.token);
       setAuthToken(response.data.token);
       window.location.href = '/Profile';

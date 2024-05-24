@@ -12,8 +12,14 @@ const app = express();
 const port = process.env.PORT || 3000; // Use port 3000 for your setup
 
 // Middleware
-app.use(cors());
-app.use(express.json());
+const corsOptions = {
+  origin: 'https://stockdata12.z6.web.core.windows.net', // Your frontend URL
+  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+  credentials: true,
+  optionsSuccessStatus: 200
+};
+
+app.use(cors(corsOptions));app.use(express.json());
 app.use(cookieParser());
 
 // Routes

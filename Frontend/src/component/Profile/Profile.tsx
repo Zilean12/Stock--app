@@ -34,7 +34,7 @@ const Profile: React.FC = () => {
           navigate('/login');
           return;
         }
-        const response = await axios.get<UserData>('http://localhost:3000/api/auth/profile', {
+        const response = await axios.get<UserData>('https://stock-app12.azurewebsites.net/api/auth/profile', {
           headers: {
             Authorization: `Bearer ${accessToken}`,
           },
@@ -58,7 +58,7 @@ const Profile: React.FC = () => {
         navigate('/login');
         return;
       }
-      const response = await axios.patch<UserData>('http://localhost:3000/api/auth/profile', {
+      const response = await axios.patch<UserData>('https://stock-app12.azurewebsites.net/api/auth/profile', {
         name,
         gender,
       }, {

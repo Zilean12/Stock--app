@@ -16,7 +16,7 @@ const Watchlist = () => {
       if (!authToken) {
         throw new Error('No authentication token found');
       }
-      const response = await axios.get<string[]>('http://localhost:3000/api/watch/watchlist', {
+      const response = await axios.get<string[]>('https://stock-app12.azurewebsites.net/api/watch/watchlist', {
         headers: { Authorization: `Bearer ${authToken}` },
       });
       if (response.status === 200) {
@@ -83,7 +83,7 @@ const Watchlist = () => {
         throw new Error('No authentication token found');
       }
       const response = await axios.delete(
-        'http://localhost:3000/api/watch/watchlist',
+        'https://stock-app12.azurewebsites.net/api/watch/watchlist',
         {
           headers: { Authorization: `Bearer ${authToken}` },
           data: { symbol },

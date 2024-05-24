@@ -103,7 +103,7 @@ const Register: React.FC = () => {
     }
 
     try {
-      const response = await axios.post('http://localhost:3000/api/auth/signup', {
+      const response = await axios.post('https://stock-app12.azurewebsites.net/api/auth/signup', {
         name,
         email,
         password,

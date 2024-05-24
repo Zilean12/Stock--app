@@ -54,7 +54,7 @@ const StockDashboard = () => {
         throw new Error('No authentication token found');
       }
       const response = await axios.post(
-        'http://localhost:3000/api/watch/watchlist',
+        'https://stock-app12.azurewebsites.net/api/watch/watchlist',
         { symbols: [stockData.symbol] },
         { headers: { Authorization: `Bearer ${authToken}` } }
       );
