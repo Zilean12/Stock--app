@@ -5,7 +5,9 @@ import './StockDashboard.css';
 import AuthContext from '../../contexts/AuthContext';
 
 const StockDashboard = () => {
-  const { userName, authToken } = useContext(AuthContext);
+  const { authToken } = useContext(AuthContext);
+
+  // const { userName, authToken } = useContext(AuthContext);
   const [symbol, setSymbol] = useState('');
   const [stockData, setStockData] = useState<any>(null);
   const [lastUpdate, setLastUpdate] = useState<string>('');

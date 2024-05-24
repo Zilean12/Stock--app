@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import axios from 'axios';
 import AuthContext from '../../contexts/AuthContext';
 import './Watchlist.css';
@@ -48,7 +48,7 @@ const Watchlist = () => {
 
       const openPrice = parseFloat(latestData['1. open']);
       const closePrice = parseFloat(latestData['4. close']);
-      const volume = parseInt(latestData['5. volume']);
+      // const volume = parseInt(latestData['5. volume']);
 
       const gainLoss = closePrice - openPrice;
 
