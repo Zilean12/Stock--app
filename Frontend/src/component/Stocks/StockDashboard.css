@@ -1,97 +1,101 @@
 /* StockDashboard.css */
 
 body {
-    background-color: #f0f4f8;
-    font-family: 'Arial', sans-serif;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    margin: 0;
-  }
-  
-  .stock-container {
-    background-color: #ffffff;
-    padding: 40px;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    transition: all 0.3s ease;
-    max-width: 500px;
-    width: 100%;
-    text-align: center;
-  }
-  
-  .stock-container:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 12px 20px rgba(0, 0, 0, 0.15);
-  }
-  
-  .stock-container h1 {
-    color: #333;
-    margin-bottom: 20px;
-    font-size: 24px;
-  }
-  
-  .stock-container form {
-    display: flex;
-    justify-content: center;
-    margin-bottom: 20px;
-  }
-  
-  .stock-container input[type="text"] {
-    padding: 10px;
-    border: 2px solid #007bff;
-    border-radius: 25px;
-    margin-right: 10px;
-    font-size: 16px;
-    width: 200px;
-    outline: none;
-    transition: border-color 0.3s ease;
-  }
-  
-  .stock-container input[type="text"]:focus {
-    border-color: #0056b3;
-  }
-  
-  .stock-container button {
-    padding: 10px 20px;
-    background-color: #007bff;
-    border: none;
-    border-radius: 25px;
-    color: white;
-    font-size: 16px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-  }
-  
-  .stock-container button:hover {
-    background-color: #0056b3;
-  }
-  
-  .stock-container .error {
-    color: red;
-    margin-top: 10px;
-    font-size: 16px;
-  }
-  
-  .stock-data {
-    background-color: #e9f7fe;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    margin-top: 20px;
-    text-align: left;
-  }
-  
-  .stock-data h2 {
-    color: #007bff;
-    margin-bottom: 10px;
-    font-size: 20px;
-  }
-  
-  .stock-data p {
-    margin: 5px 0;
-    color: #555;
-    font-size: 16px;
-  }
-  
+  font-family: 'Arial', sans-serif;
+  background-color: #f4f6f9;
+  color: #333;
+  margin: 0;
+  padding: 20px;
+}
+
+.stock-dashboard {
+  margin: 0 auto;
+  max-width: 80%;
+  text-align: center;
+  background-color: #fff;
+  padding: 20px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+}
+
+.stock-dashboard h1 {
+  font-size: 2.5em;
+  margin-bottom: 20px;
+  color: #007bff;
+}
+
+.stock-dashboard form {
+  margin-bottom: 20px;
+}
+
+.stock-dashboard input[type="text"] {
+  padding: 10px;
+  font-size: 1em;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  width: 250px;
+  margin-right: 10px;
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.stock-dashboard button[type="submit"],
+.stock-dashboard button {
+  padding: 10px 20px;
+  font-size: 1em;
+  border: none;
+  border-radius: 4px;
+  background-color: #007bff;
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.stock-dashboard button[type="submit"]:hover,
+.stock-dashboard button:hover {
+  background-color: #0056b3;
+}
+
+.stock-dashboard p {
+  color: red;
+}
+
+.stock-dashboard table {
+  border-collapse: collapse;
+  width: 100%;
+  table-layout: fixed;
+  margin-top: 20px;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.stock-dashboard th,
+.stock-dashboard td {
+  padding: 12px;
+  border: 1px solid #ddd;
+  text-align: center;
+}
+
+.stock-dashboard th {
+  background-color: #007bff;
+  color: white;
+  font-weight: bold;
+}
+
+.stock-dashboard tbody tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+.stock-dashboard tbody tr:hover {
+  background-color: #f1f1f1;
+}
+
+.stock-dashboard .gain {
+  color: green;
+  font-weight: bold;
+}
+
+.stock-dashboard .loss {
+  color: red;
+  font-weight: bold;
+}

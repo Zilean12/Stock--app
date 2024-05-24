@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
 import axios from 'axios';
+import './StockDashboard.css';
 
 import AuthContext from '../../contexts/AuthContext';
 
