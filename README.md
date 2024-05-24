@@ -66,6 +66,3 @@ npm start
 3. View the latest stock prices for the stocks in your watchlist on the dashboard.
 4. Manage your watchlist by adding or removing stocks.
 
-## Contributing
-
-Contributions are welcome! If you find any issues or have suggestions for improvements, please open an issue or submit a pull request.
